@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Helper text styles (small, subtle) */
+        .password-help {
+            font-size: 0.85em;
+            margin-top: 4px;
+        }
+
+        .weak { color: red; }
+        .good { color: orange; }
+        .strong { color: green; }
+
+        .eye-toggle {
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 6px;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body> 
+    <div class="form-container">
+        <h2>Register</h2>
+
+        <form method="POST" onsubmit="return checkPasswordMatch()">
+
+            <!-- Full Name -->
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <!-- Email -->
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <!-- Password -->
+            <label for="password">
+                Password 
+                <span class="eye-toggle" onclick="togglePassword()">👁</span>
+            </label>
+            <input type="password" id="password" name="password" required>
+
+            <div id="strength" class="password-help"></div>
+            <div id="hints" class="password-help"></div>
+
+            <!-- Confirm Password -->
+            <label for="confirm_password">
+                Confirm Password 
+                <span class="eye-toggle" onclick="toggleConfirm()">👁</span>
+            </label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <div id="matchError" class="error"></div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Already have an account? <a href="index.html">Login here</a></p>
+    </div>
+
+    <script>
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm_password");
+        const strength = document.getElementById("strength");
+        const hints = document.getElementById("hints");
+        const matchError = document.getElementById("matchError");
+
+        function togglePassword() {
+            password.type = password.type === "password" ? "text" : "password";
+        }
+
+        function toggleConfirm() {
+            confirmPassword.type = confirmPassword.type === "password" ? "text" : "password";
+        }
+
+        password.addEventListener("input", () => {
+            let score = 0;
+            let hintText = [];
+
+            if (password.value.length >= 8) score++;
+            else hintText.push("• At least 8 characters");
+
+            if (/[A-Z]/.test(password.value)) score++;
+            else hintText.push("• Add an uppercase letter");
+
+            if (/[0-9]/.test(password.value)) score++;
+            else hintText.push("• Add a number");
+
+            if (/[^A-Za-z0-9]/.test(password.value)) score++;
+            else hintText.push("• Add a special character");
+
+            if (password.value.length === 0) {
+                strength.textContent = "";
+                hints.textContent = "";
+                return;
+            }
+
+            if (score <= 1) {
+                strength.textContent = "Weak password";
+                strength.className = "password-help weak";
+            } else if (score <= 3) {
+                strength.textContent = "Good password";
+                strength.className = "password-help good";
+            } else {
+                strength.textContent = "Strong password";
+                strength.className = "password-help strong";
+            }
+
+            hints.innerHTML = hintText.join("<br>");
+        });
+
+        function checkPasswordMatch() {
+            if (password.value !== confirmPassword.value) {
+                matchError.textContent = "Passwords do not match.";
+                return false;
+            }
+            matchError.textContent = "";
+            return true;
+        }
+    </script>
+</body>
+</html>

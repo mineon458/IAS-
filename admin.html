@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Secure Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-content">
+            <h1>Secure Web App</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>Admin Panel</h2>
+                <p>Manage users and system settings</p>
+            </div>
+
+            <div class="info-box">
+                <h3>System Statistics</h3>
+                <p>
+                    <label>Total Users:</label>
+                    {{ users|length }}
+                </p>
+                <p>
+                    <label>Administrators:</label>
+                    {{ users|selectattr('role', 'equalto', 'admin')|list|length }}
+                </p>
+                <p>
+                    <label>Regular Users:</label>
+                    {{ users|selectattr('role', 'equalto', 'user')|list|length }}
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>All Users</h3>
+                {% if users %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <strong style="color: {% if user.role == 'admin' %}#dc3545{% else %}#28a745{% endif %}">
+                                            {{ user.role|upper }}
+                                        </strong>
+                                    </td>
+                                    <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M') if user.created_at else 'N/A' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No users found.</p>
+                {% endif %}
+            </div>
+
+            <div class="info-box">
+                <h3>Admin Information</h3>
+                <ul style="margin-left: 20px; color: #666666;">
+                    <li>This panel displays all registered users</li>
+                    <li>Only administrators can access this page</li>
+                    <li>All access is logged in the database</li>
+                    <li>Passwords are securely hashed and never displayed</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

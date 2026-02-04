@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Secure Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-content">
+            <h1>Secure Web App</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                {% if session.get('role') == 'admin' %}
+                    <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>User Profile</h2>
+                <p>Manage your account information</p>
+            </div>
+
+            <div class="info-box">
+                <h3>Account Details</h3>
+                <p>
+                    <label>Username:</label>
+                    {{ user.username }}
+                </p>
+                <p>
+                    <label>Email:</label>
+                    {{ user.email }}
+                </p>
+                <p>
+                    <label>Role:</label>
+                    <strong>{{ session.get('role') }}</strong>
+                </p>
+                <p>
+                    <label>Member Since:</label>
+                    {{ user.created_at.strftime('%B %d, %Y') if user.created_at else 'N/A' }}
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>Account Management</h3>
+                <p>
+                    <a href="{{ url_for('change_password') }}" class="btn btn-primary" style="display: inline-block; width: auto; padding: 10px 20px;">Change Password</a>
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>Password Security</h3>
+                <p>Your password is hashed using PBKDF2:SHA256 for maximum security.</p>
+                <ul style="margin-left: 20px; color: #666666;">
+                    <li>Password requirements: At least 8 characters</li>
+                    <li>Must include uppercase and lowercase letters</li>
+                    <li>Must include numbers and special characters</li>
+                    <li>Never reuse old passwords</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
