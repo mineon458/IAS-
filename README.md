@@ -31,23 +31,6 @@ Features of Secure Web Application
 - SQL injection prevention through parameterized queries
 - XSS protection through template auto-escaping
 
- Protected Routes
-- `/` - Redirects to login or dashboard
-- `/register` - Public registration
-- `/login` - Public login
-- `/dashboard` - Protected (login required)
-- `/profile` - Protected (login required)
-- `/change-password` - Protected (login required)
-- `/admin` - Protected (admin only)
-- `/logout` - Public logout
-
- Security Features
-- Secure cookie flag for HTTPS
-- Session timeout after a period of inactivity
-- Database encryption for passwords
-- CSRF protection in forms
-
-
 Secure Web Application Project Structure
 
 ```
@@ -70,24 +53,11 @@ Secure Web Application Project Structure
     └── style.css   ✅ correct place
 
 ```
+## CSS running locally has not yet been fully implemented
 
-Usage Examples
-
- User Registration
-1. Visit `/register`
-2. Enter username, email, and password meeting requirements
-3. Click "Register"
-4. Login with your credentials
-
-  Admin Access
-1. Login with admin credentials
-2. Navigate to Admin Panel
-3. View all registered users
-
- Change Password
-1. Login
-2. Click "Change Password"
-3. Enter current password and new password
-4. Submit
-
-
+  - ROLES -
+Python and Flask Integration - Dumangas
+Password Security - Tahanlangit
+HTML sytling - Tahanlangit
+Terminal Debugging - Dumangas
+Password Updates - Narte
