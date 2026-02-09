@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <!-- Link to your main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="form-container">
+            <h2>Register</h2>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('registration') }}" onsubmit="return checkPasswordMatch()">
+                
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+        
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                
+                <label for="password">
+                    Password
+                    <span class="eye-toggle" onclick="togglePassword()">👁</span>
+                </label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <div id="strength" class="password-help"></div>
+                <div id="hints" class="password-help"></div>
+
+                
+                <label for="confirm_password">
+                    Confirm Password
+                    <span class="eye-toggle" onclick="toggleConfirm()">👁</span>
+                </label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                <div id="matchError" class="error"></div>
+
+                <button type="submit" id="registerBtn" class="btn btn-primary" disabled>
+                    Register
+                </button>
+
+            </form>
+
+            <p class="form-footer">Already have an account? 
+                <a href="{{ url_for('login') }}">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm_password");
+        const strength = document.getElementById("strength");
+        const hints = document.getElementById("hints");
+        const matchError = document.getElementById("matchError");
+        const registerBtn = document.getElementById("registerBtn");
+
+
+        
+        function togglePassword() {
+            password.type = password.type === "password" ? "text" : "password";
+        }
+
+        function toggleConfirm() {
+            confirmPassword.type = confirmPassword.type === "password" ? "text" : "password";
+        }
+
+        
+
+        password.addEventListener("input", () => {
+            let score = 0;
+            let hintText = [];
+
+            if (password.value.length >= 8) score++; else hintText.push("• Password must have atleast 8 characters");
+            if (/[A-Z]/.test(password.value)) score++; else hintText.push("• Password must contain an uppercase letter");
+            if (/[a-z]/.test(password.value)) score++; else hintText.push("• Password must contain a lowercase letter");
+            if (/[0-9]/.test(password.value)) score++; else hintText.push("• Password must have a number");
+            if (/[^A-Za-z0-9]/.test(password.value)) score++; else hintText.push("• Password must have a special character");
+
+            if (password.value.length === 0) {
+                strength.textContent = "";
+                hints.textContent = "";
+                registerBtn.disabled = true;
+                return;
+            }
+
+            if (score <= 1) {
+                strength.textContent = "Weak password";
+                strength.className = "password-help weak";
+                registerBtn.disabled = true;
+            } 
+            else if (score <= 3) {
+                strength.textContent = "Good password";
+                strength.className = "password-help good";
+                registerBtn.disabled = false;
+            } else {
+                strength.textContent = "Strong password";
+                strength.className = "password-help strong";
+                registerBtn.disabled = false;
+
+            }
+
+            hints.innerHTML = hintText.join("<br>");
+        });
+
+        function checkPasswordMatch() {
+            if (password.value !== confirmPassword.value) {
+                matchError.textContent = "Passwords do not match.";
+                return false;
+            }
+            matchError.textContent = "";
+            return true;
+        }
+    </script>
+</body>
+</html>

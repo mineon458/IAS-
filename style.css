@@ -1,4 +1,4 @@
-/* General body styling */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,6 @@ body {
     padding-top: 70px;
 }
 
-/* Navbar styling */
 .navbar {
     background-color: #333333;
     color: white;
@@ -23,6 +22,11 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 1000;
 }
+
+.with-navbar {
+    padding-top: 70px;
+}
+
 
 .navbar-content {
     max-width: 1200px;
@@ -59,10 +63,19 @@ body {
 
 /* Main container */
 .container {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
+    min-height: calc(100vh - 70px); 
+    padding: 20px;
 }
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+
 
 /* Form container */
 .form-container {
@@ -71,7 +84,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     max-width: 500px;
-    margin: 50px auto;
+    margin: 0 auto;
 }
 
 .form-container h2 {
@@ -81,7 +94,6 @@ body {
     font-size: 28px;
 }
 
-/* Form groups */
 .form-group {
     margin-bottom: 20px;
 }
@@ -100,6 +112,8 @@ form input {
     border-radius: 6px;
     font-size: 14px;
     transition: border-color 0.3s;
+     margin-bottom: 20px; 
+    
 }
 
 form input:focus {
@@ -119,7 +133,6 @@ form small {
     font-size: 12px;
 }
 
-/* Button styling */
 .btn {
     width: 100%;
     padding: 12px;
@@ -167,7 +180,12 @@ form small {
     background-color: #218838;
 }
 
-/* Alert messages */
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 .alert {
     padding: 15px;
     margin-bottom: 20px;
@@ -199,7 +217,38 @@ form small {
     border-color: #17a2b8;
 }
 
-/* Form footer */
+/* Eye toggle for password visibility */
+.eye-toggle { 
+    cursor: pointer; 
+    font-size: 0.9em; 
+    margin-left: 6px; 
+}
+
+/* Password strength indicator */
+.password-help { 
+    font-size: 0.85em; 
+    margin-top: 4px; 
+}
+
+/* Password strength colors */
+.weak { 
+    color: red; 
+}
+
+.good { 
+    color: orange; 
+}
+
+.strong { 
+    color: green; 
+}
+
+/* Error message for password mismatch */
+.error { 
+    color: red; 
+    font-size: 0.85em; 
+}
+
 .form-footer {
     margin-top: 20px;
     text-align: center;
@@ -216,7 +265,7 @@ form small {
     text-decoration: underline;
 }
 
-/* Dashboard and other pages */
+
 .dashboard-container {
     background-color: white;
     padding: 30px;
@@ -262,7 +311,7 @@ form small {
     color: #666666;
 }
 
-/* Table styling */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -293,7 +342,7 @@ table tbody tr:nth-child(even) {
     background-color: #fafafa;
 }
 
-/* Action buttons in tables */
+
 .action-buttons {
     display: flex;
     gap: 10px;
@@ -344,4 +393,34 @@ table tbody tr:nth-child(even) {
     table td {
         padding: 10px;
     }
+}
+.role-admin {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.role-user {
+    color: #28a745; 
+    font-weight: bold;
+}
+
+.table-users {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table-users th, .table-users td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table-users th {
+    background-color: #f2f2f2;
+}
+
+.info-list {
+    margin-left: 20px;
+    color: #666666;
 }

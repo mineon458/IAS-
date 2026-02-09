@@ -10,7 +10,7 @@
     <div class="navbar">
         <div class="navbar-content">
             <h1>Secure Web App</h1>
-            <div class="nav-links">
+            <div class="nav-links  >
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('profile') }}">Profile</a>
                 <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -53,7 +53,7 @@
             <div class="info-box">
                 <h3>All Users</h3>
                 {% if users %}
-                    <table>
+                   <table class="table-users">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -69,11 +69,12 @@
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.username }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>
-                                        <strong style="color: {% if user.role == 'admin' %}#dc3545{% else %}#28a745{% endif %}">
+                                  <td>
+                                        <strong class="role-{{ user.role }}">
                                             {{ user.role|upper }}
                                         </strong>
-                                    </td>
+                                 </td>
+
                                     <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M') if user.created_at else 'N/A' }}</td>
                                 </tr>
                             {% endfor %}
@@ -86,12 +87,14 @@
 
             <div class="info-box">
                 <h3>Admin Information</h3>
-                <ul style="margin-left: 20px; color: #666666;">
+                <ul class="info-list">
                     <li>This panel displays all registered users</li>
                     <li>Only administrators can access this page</li>
                     <li>All access is logged in the database</li>
                     <li>Passwords are securely hashed and never displayed</li>
                 </ul>
+                 <hr style="margin: 20px 0;">
+
             </div>
         </div>
     </div>
