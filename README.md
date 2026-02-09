@@ -18,13 +18,13 @@ Features of Secure Web Application
   - Must include at least one special character (!@#$%^&*)
 - Secure password change functionality
 
- Role-Based Access Control (RBAC)
+✅ Role-Based Access Control (RBAC)
 - Two user roles: `admin` and `user`
 - Protected routes using decorators
 - Admin-only dashboard and user management
 - Prevents direct URL access to protected pages
 
- Input Validation
+✅ Input Validation
 - Email format validation
 - Username validation (3-20 characters, alphanumeric + underscore only)
 - Password strength validation
@@ -35,26 +35,30 @@ Secure Web Application Project Structure
 
 ```
 │
-├── app.py
-├── secure_app.db
-├── README.md
+├── py_cache_
+├── instance
+│   ├── secure_app.db
+│
+├── static
+│   ├── README.txt
+│   ├── style.css
 │
 ├── templates/
-│   ├── Index.html
-│   ├── login.html
-│   ├── registrationPage.html
-│   ├── dashboard.html
-│   ├── profile.html
-│   ├── change_password.html
+│   ├── 403.html
+│   ├── 404.html
+│   ├── 500.html
 │   ├── admin.html
-│   └── style.css   ❌ (this should not be here, but it won’t crash)
-│
-└── static/
-    └── style.css   ✅ correct place
+│   ├── change_password.html
+│    ├── dashboard.html
+│    ├── edit_admin.html
+│    ├── login.html
+│    ├── profile.html
+│    ├── registration.html
+│ 
+├── app.py
+└── README.md
 
 ```
-## CSS running locally has not yet been fully implemented
-
   - ROLES -
 Python and Flask Integration - Dumangas
 Password Security - Tahanlangit
