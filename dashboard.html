@@ -1,76 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Secure Web App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="navbar">
-        <div class="navbar-content">
-            <h1>Secure Web App</h1>
-            <div class="nav-links">
-                <a href="{{ url_for('dashboard') }}">Dashboard</a>
-                <a href="{{ url_for('profile') }}">Profile</a>
-                {% if session.get('role') == 'admin' %}
-                    <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
-                {% endif %}
-                <a href="{{ url_for('logout') }}">Logout</a>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard - Secure Web App</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="navbar-content">
+                <h1>Secure Web App</h1>
+                <div class="nav-links">
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('profile') }}">Profile</a>
+                    {% if session.get('role') == 'admin' %}
+                        <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
             </div>
         </div>
-    </div>
+        
+        <div class="container">
+            <div class="dashboard-container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
 
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+                <div class="dashboard-container">
+                    <div class="dashboard-header">
+                        <h2>Welcome, {{ user.username }}!</h2>
+                        <p>You are logged in with role: <strong>{{ session.get('role') }}</strong></p>
+                    </div>
 
-        <div class="dashboard-container">
-            <div class="dashboard-header">
-                <h2>Welcome, {{ user.username }}!</h2>
-                <p>You are logged in with role: <strong>{{ session.get('role') }}</strong></p>
-            </div>
-
-            <div class="info-box">
-                <h3>Your Account Information</h3>
-                <p>
-                    <label>Username:</label>
-                    {{ user.username }}
-                </p>
-                <p>
-                    <label>Email:</label>
-                    {{ user.email }}
-                </p>
-                <p>
-                    <label>Account Created:</label>
-                    {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') if user.created_at else 'N/A' }}
-                </p>
-            </div>
-
-            <div class="info-box">
-                <h3>Quick Actions</h3>
-                <p>
-                    <a href="{{ url_for('profile') }}" class="btn btn-secondary" style="display: inline-block; width: auto; padding: 10px 20px; margin: 5px;">View Profile</a>
-                    <a href="{{ url_for('change_password') }}" class="btn btn-secondary" style="display: inline-block; width: auto; padding: 10px 20px; margin: 5px;">Change Password</a>
-                </p>
-            </div>
-
-            <div class="info-box">
-                <h3>Security Tips</h3>
-                <ul style="margin-left: 20px; color: #666666;">
-                    <li>Never share your password with anyone</li>
-                    <li>Change your password regularly</li>
-                    <li>Log out when using shared computers</li>
-                    <li>Always verify the website URL</li>
-                    <li>Be cautious of phishing attempts</li>
-                </ul>
+                    <div class="info-box">
+                        <h3>Your Account Information</h3>
+                        <p>
+                            <label>Username:</label>
+                            {{ user.username }}
+                        </p>
+                        <p>
+                            <label>Email:</label>
+                            {{ user.email }}
+                        </p>
+                        <p>
+                            <label>Account Created:</label>
+                            {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') if user.created_at else 'N/A' }}
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>Security Tips</h3>
+                    <ul style="margin-left: 20px; color: #666666;">
+                        <li>Never share your password with anyone</li>
+                        <li>Change your password regularly</li>
+                        <li>Log out when using shared computers</li>
+                        <li>Always verify the website URL</li>
+                        <li>Be cautious of phishing attempts</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</body>
-</html>
+    </body>
+    </html>

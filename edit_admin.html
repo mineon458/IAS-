@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- NAVBAR (same as other pages) -->
+<div class="navbar">
+    <div class="navbar-content">
+        <h1>Secure Web App</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+    <div class="dashboard-container">
+
+        <div class="dashboard-header">
+            <h2>Edit Admin Account</h2>
+            <p>Update admin username and email</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="info-box">
+            <label>Username</label>
+            <input type="text" name="username" value="{{ admin.username }}" required>
+
+            <label>Email</label>
+            <input type="email" name="email" value="{{ admin.email }}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <a href="{{ url_for('admin_panel') }}" class="back-link">
+            ← Back to Admin Panel
+        </a>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -56,15 +56,39 @@
                 </p>
             </div>
 
-            <div class="info-box">
-                <h3>Account Management</h3>
-                <p>
-                    <a href="{{ url_for('change_password') }}" class="btn btn-primary" style="display: inline-block; width: auto; padding: 10px 20px;">Change Password</a>
-                </p>
-            </div>
+    <div class="info-box">
+    <h3>Account Management</h3>
+
+    {% if user.role == 'admin' %}
+        <!-- Button to show edit form -->
+        <button id="show-edit-btn" 
+                onclick="document.getElementById('edit-admin-form').style.display='block'; this.style.display='none';"
+                class="btn btn-primary">
+            Edit Admin Account
+        </button>
+
+        <!-- Admin edit form, hidden initially -->
+        <form id="edit-admin-form" method="POST" style="display:none; margin-top:15px;">
+            <label>Username</label>
+            <input type="text" name="username" value="{{ user.username }}" required>
+
+            <label>Email</label>
+            <input type="email" name="email" value="{{ user.email }}" required>
+
+            <button type="submit" class="btn btn-success" style="margin-top:10px;">Save Changes</button>
+        </form>
+
+        <!-- Change password button -->
+        <a href="{{ url_for('change_password') }}" class="btn btn-secondary" style="margin-top:10px;">
+            Change Password
+        </a>
+    {% else %}
+        <p style="color:#666;">No account management actions available.</p>
+    {% endif %}
+</div>
 
             <div class="info-box">
-                <h3>Password Security</h3>
+           <h3>Password Security</h3>
                 <p>Your password is hashed using PBKDF2:SHA256 for maximum security.</p>
                 <ul style="margin-left: 20px; color: #666666;">
                     <li>Password requirements: At least 8 characters</li>
